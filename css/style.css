@@ -74,7 +74,7 @@ img{
     justify-content: space-between;
     align-items: center;
     margin: auto;
-    margin-top: 5rem;
+    margin-top: 2rem;
 }
 .music_controls .fas{
     color: #111111;
@@ -110,4 +110,53 @@ img{
     to {
         transform: rotate(360deg);
     }
+}
+
+/* progress style  */
+
+.progressbar_container{
+    width: 100%;
+    height: auto;
+    padding: 1rem 0;
+    margin-top: 1rem;
+}
+.progress_div{
+    width: 100%;
+    height: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.7),0 2px 4px rgba(0, 0, 0, 0.7),0 4px 8px rgba(0, 0, 0, 0.7),0 8px 16px rgba(0, 0, 0, 0.7),0 16px 32px rgba(0, 0, 0, 0.7),0 32px 64px rgba(0, 0, 0, 0.7);
+    border-radius: 4rem;
+    position: relative;
+    margin-top: 0.rrem;
+    transition: width in linear;
+    -moz-transition: width in linear;
+    -o-transition: width in linear;
+    -webkit-transition: width in linear;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+
+}
+.progress{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 4rem;
+    width: 0%;
+    height: 100%;
+    background-color: black;
+    margin-top: 0.rrem;
+    transition: width in linear;
+    -moz-transition: width in linear;
+    -o-transition: width in linear;
+    -webkit-transition: width in linear;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.progress_duration_meter{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+    font-size: bold;
 }

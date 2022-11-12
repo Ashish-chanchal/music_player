@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/3844/3844724.png" type="image/x-icon">
     <title>Music app</title>
 </head>
 <body><video  muted loop id="myVideo">
@@ -19,6 +20,15 @@
                 <img src="https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg" alt="">
             </div>
             <audio src="music/Kesariya.mp3" ></audio>
+            <div class="progressbar_container" id="progress_container">
+                <div class="progress_duration_meter">
+                    <div id="current_time">0.00</div>
+                    <div id="duration">4.28</div>
+                </div>
+                <div class="progress_div" id="progress_div">
+                    <div class="progress" id="progress"></div>
+                </div>
+            </div>
             <!-- controls -->
             <div class="music_controls">
                 <i class="fa-solid fa-backward fas" id="prew" title="Previous"></i>
