@@ -10,7 +10,23 @@ const progress=document.getElementById('progress');
 let sduration = document.getElementById('duration');
 let current_time= document.getElementById('current_time');
 const progress_div = document.getElementById('progress_div');
+const vertical_nav=document.getElementById('vertical_nav');
+const ourlist=document.getElementById('ourlist');
 
+const song1=document.getElementById('song1');
+const song2=document.getElementById('song2');
+const song3=document.getElementById('song3');
+const song4=document.getElementById('song4');
+const song5=document.getElementById('song5');
+const song6=document.getElementById('song6');
+const song7=document.getElementById('song7');
+const song8=document.getElementById('song8');
+const song9=document.getElementById('song9');
+const song10=document.getElementById('song10');
+
+console.log(song1);
+console.log(ourlist);
+songIndex = 0;
 const songs = [{
     artist: "Arijit Singh",
     id: "1",
@@ -186,16 +202,18 @@ const loadSong = (songs) => {
     music.src = "music/" + songs.name + ".mp3";
     img.src = songs.image;
 };
-songIndex = 0;
+
 //loadSong(songs[2]);
 
 const nextSong = () => {
     songIndex = (songIndex + 1) % songs.length;
+    artist.style.color='grey';
     loadSong(songs[songIndex]);
     playMusic();
 }
 const prewSong = () => {
     songIndex = (songIndex - 1 + songs.length) % songs.length;
+    artist.style.color='grey';
     loadSong(songs[songIndex]);
     playMusic();
 }
@@ -231,6 +249,111 @@ progress_div.addEventListener('click',(event)=>{
 
     music.currentTime= move_progress;
 })
- music.addEventListener('ended',nextSong);
+const showList=()=>{
+    if(vertical_nav.style.display=='none'){
+        vertical_nav.style.display="block";
+    }
+    else{
+        vertical_nav.style.display="none";
+    }
+}
+const plays1=()=>{
+   title.textContent=song1.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song1.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays2=()=>{
+   title.textContent=song2.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song2.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays3=()=>{
+   title.textContent=song3.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song3.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays4=()=>{
+   title.textContent=song4.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song4.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays5=()=>{
+   title.textContent=song5.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song5.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays6=()=>{
+   title.textContent=song6.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song6.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays7=()=>{
+   title.textContent=song7.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song7.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays8=()=>{
+   title.textContent=song8.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song8.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays9=()=>{
+   title.textContent=song1.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song1.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays10=()=>{
+   title.textContent=song10.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song10.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+
+song1.addEventListener('click',plays1);
+song2.addEventListener('click',plays2);
+song3.addEventListener('click',plays3);
+song4.addEventListener('click',plays4);
+song5.addEventListener('click',plays5);
+song6.addEventListener('click',plays6);
+song7.addEventListener('click',plays7);
+song8.addEventListener('click',plays8);
+song9.addEventListener('click',plays9);
+song10.addEventListener('click',plays10);
+
+
+ourlist.addEventListener('click', showList);
+
+music.addEventListener('ended',nextSong);
+
 next.addEventListener('click', nextSong);
+
 prew.addEventListener('click', prewSong);

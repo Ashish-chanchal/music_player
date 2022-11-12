@@ -11,6 +11,8 @@
 html{
     font-size: 62.5%;
     font-family: 'Jost', sans-serif;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 #myVideo {
     position: absolute;
@@ -19,10 +21,12 @@ html{
     min-width: 100vw; 
     min-height: 100vh;
     object-fit: cover;
-    z-index: -1;
+    z-index: -2;
   }
 .main_div{
-    width: 100vw;
+    position: absolute;
+    z-index: -1;
+    width: 80vw;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -31,12 +35,14 @@ html{
 
 .music_container{
     width: 35rem;
+    
     height: 55rem;
     background-color: #ffffff;
     border-radius: 2rem;
     box-shadow: 0 1.2rem 3rem 0.5rem rgba(255, 255, 255,0.5);
     padding: 3rem;
     text-align: center;
+    
 }
 .music_container #title{
     text-transform: uppercase;
@@ -160,3 +166,43 @@ img{
     font-size: 1.5rem;
     font-size: bold;
 }
+/* Songs list css */
+
+.songslist{
+    margin:20px;
+    display: flex;
+    position: absolute;
+    z-index: 0;
+    color: white;
+
+}
+#ourlist{
+    padding: 5px;
+    border-radius: 40%;
+    cursor: pointer;
+}
+#ourlist:hover{
+    color: rgb(166, 81, 245);
+}
+ul {
+    display: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+  }
+  
+  li a {
+    display: block;
+    color: #000;
+    font-weight: bold;
+    padding: 8px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color on hover */
+  li a:hover {
+    background-color: #555;
+    color: black;
+  }
