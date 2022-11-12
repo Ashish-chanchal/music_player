@@ -199,6 +199,7 @@ play.addEventListener('click', () => {
 const loadSong = (songs) => {
     title.textContent = songs.title;
     artist.textContent = songs.artist;
+    
     music.src = "music/" + songs.name + ".mp3";
     img.src = songs.image;
 };
@@ -261,6 +262,7 @@ const plays1=()=>{
    title.textContent=song1.textContent;
    artist.style.color='white';
     music.src = "music/" + `${song1.textContent}` + ".mp3";
+    img.src ="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*";
     songIndex = 0;
     showList();
     playMusic();
@@ -322,9 +324,10 @@ const plays8=()=>{
     playMusic();
 }
 const plays9=()=>{
-   title.textContent=song1.textContent;
+   title.textContent=song9.textContent;
    artist.style.color='white';
-    music.src = "music/" + `${song1.textContent}` + ".mp3";
+    music.src = "music/" + `${song9.textContent}` + ".mp3";
+    img.src ="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*";
     songIndex = 0;
     showList();
     playMusic();
@@ -333,6 +336,7 @@ const plays10=()=>{
    title.textContent=song10.textContent;
    artist.style.color='white';
     music.src = "music/" + `${song10.textContent}` + ".mp3";
+    img.src ="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*";
     songIndex = 0;
     showList();
     playMusic();
