@@ -188,6 +188,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Track whether autoplay is pending after src change
+    let _pendingPlay = false;
+
+    // When audio is ready to play, fire if pending
+    audio.addEventListener('canplay', () => {
+        if (_pendingPlay) {
+            _pendingPlay = false;
+            const p = audio.play();
+            if (p !== undefined) {
+                p.then(() => {
+                    isPlaying = true;
+                    playPauseBtn.querySelector('i').className = 'fa-solid fa-pause';
+                    vinylRecord.classList.add('spinning');
+                    updateActiveCardPlayIcon(true);
+                }).catch(err => {
+                    console.warn('Autoplay blocked:', err);
+                    pauseAudio();
+                });
+            }
+        }
+    });
+
     // Load Song Details into Player
     function loadSong(index, shouldPlay = true) {
         if (index < 0 || index >= songsData.length) return;
@@ -195,18 +217,14 @@ document.addEventListener('DOMContentLoaded', () => {
         currentIndex = index;
         const song = songsData[currentIndex];
 
-        audio.src = song.url;
-
+        // Update UI text immediately
         currentTitle.textContent = song.title;
         currentArtist.textContent = song.artist;
         currentAlbum.textContent = song.album || 'Single';
         currentCover.src = song.cover;
-
-        // Update Hero Spotlight Banner
         heroTitle.textContent = song.title;
         heroArtist.textContent = `${song.artist} • ${song.album || 'Single'}`;
         heroCover.src = song.cover;
-        
         updateFavoriteButtonState(song.id);
 
         // Highlight Active Card
@@ -220,22 +238,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (shouldPlay) {
-            playAudio();
+            // Set flag so canplay listener fires play
+            _pendingPlay = true;
+            // Update icons immediately so UI feels instant
+            isPlaying = true;
+            playPauseBtn.querySelector('i').className = 'fa-solid fa-pause';
+            vinylRecord.classList.add('spinning');
         } else {
+            _pendingPlay = false;
             pauseAudio();
         }
+
+        // Changing src triggers canplay → play
+        audio.src = song.url;
     }
 
     // Play/Pause Controls
     function playAudio() {
-        isPlaying = true;
-        playPauseBtn.querySelector('i').className = 'fa-solid fa-pause';
-        vinylRecord.classList.add('spinning');
-        updateActiveCardPlayIcon(true);
-
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(err => {
+        const p = audio.play();
+        if (p !== undefined) {
+            p.then(() => {
+                isPlaying = true;
+                playPauseBtn.querySelector('i').className = 'fa-solid fa-pause';
+                vinylRecord.classList.add('spinning');
+                updateActiveCardPlayIcon(true);
+            }).catch(err => {
                 console.warn('Browser autoplay or media error:', err);
                 pauseAudio();
             });
