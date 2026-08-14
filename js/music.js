@@ -196,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const song = songsData[currentIndex];
 
         audio.src = song.url;
+        audio.load();
         currentTitle.textContent = song.title;
         currentArtist.textContent = song.artist;
         currentAlbum.textContent = song.album || 'Single';
@@ -227,14 +228,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Play/Pause Controls
     function playAudio() {
-        audio.play().then(() => {
-            isPlaying = true;
-            playPauseBtn.querySelector('i').className = 'fa-solid fa-pause';
-            vinylRecord.classList.add('spinning');
-            updateActiveCardPlayIcon(true);
-        }).catch(err => {
-            console.log('Playback standard interaction check:', err);
-        });
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                isPlaying = true;
+                playPauseBtn.querySelector('i').className = 'fa-solid fa-pause';
+                vinylRecord.classList.add('spinning');
+                updateActiveCardPlayIcon(true);
+            }).catch(err => {
+                console.warn('Autoplay prevented or network loading:', err);
+            });
+        }
     }
 
     function pauseAudio() {
