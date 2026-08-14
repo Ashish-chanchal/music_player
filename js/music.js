@@ -64,13 +64,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     function normalizeSong(song) {
+        const rawName = song.name || song.title_song || song.title || '';
+        let audioUrl = song.url || song.Song_url || '';
+        
+        // If audioUrl is empty, expired Google Drive link, or broken external link, fallback to local MP3
+        if (!audioUrl || audioUrl.includes('drive.google.com') || audioUrl.includes('pagalfree.com')) {
+            audioUrl = `music/${rawName}.mp3`;
+        }
+
+        let coverUrl = song.cover || song.image || '';
+        if (!coverUrl || coverUrl.includes('drive.google.com') || !coverUrl.startsWith('http')) {
+            coverUrl = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=80';
+        }
+
         return {
             id: String(song.id || ''),
-            title: song.title || song.title_song || song.name || 'Unknown Track',
-            artist: song.artist || song.artist_song || 'Unknown Artist',
+            title: song.title_song || song.title || song.name || 'Unknown Track',
+            artist: song.artist_song || song.artist || 'Unknown Artist',
             album: song.album || 'Single',
-            url: song.url || song.Song_url || (song.name ? `music/${song.name}.mp3` : ''),
-            cover: song.cover || (song.image && song.image.startsWith('http') ? song.image : 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=80')
+            url: audioUrl,
+            cover: coverUrl
         };
     }
 
@@ -252,21 +265,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Previous / Next Logic
     function playNextSong() {
+        const activeList = currentPlaylist.length > 0 ? currentPlaylist : songsData;
+        if (activeList.length === 0) return;
+
         if (isShuffle) {
             let randomIndex;
             do {
-                randomIndex = Math.floor(Math.random() * songsData.length);
-            } while (randomIndex === currentIndex && songsData.length > 1);
-            loadSong(randomIndex, true);
+                randomIndex = Math.floor(Math.random() * activeList.length);
+            } while (randomIndex === currentIndex && activeList.length > 1);
+            loadSongByPlaylistIndex(randomIndex, true);
         } else {
-            const nextIdx = (currentIndex + 1) % songsData.length;
-            loadSong(nextIdx, true);
+            const currentSong = songsData[currentIndex];
+            let currentListIdx = activeList.findIndex(s => s.id === (currentSong ? currentSong.id : ''));
+            if (currentListIdx === -1) currentListIdx = 0;
+            const nextListIdx = (currentListIdx + 1) % activeList.length;
+            loadSongByPlaylistIndex(nextListIdx, true);
         }
     }
 
     function playPrevSong() {
-        const prevIdx = (currentIndex - 1 + songsData.length) % songsData.length;
-        loadSong(prevIdx, true);
+        const activeList = currentPlaylist.length > 0 ? currentPlaylist : songsData;
+        if (activeList.length === 0) return;
+
+        const currentSong = songsData[currentIndex];
+        let currentListIdx = activeList.findIndex(s => s.id === (currentSong ? currentSong.id : ''));
+        if (currentListIdx === -1) currentListIdx = 0;
+        const prevListIdx = (currentListIdx - 1 + activeList.length) % activeList.length;
+        loadSongByPlaylistIndex(prevListIdx, true);
+    }
+
+    function loadSongByPlaylistIndex(playlistIdx, shouldPlay = true) {
+        const activeList = currentPlaylist.length > 0 ? currentPlaylist : songsData;
+        const targetSong = activeList[playlistIdx];
+        if (!targetSong) return;
+
+        const mainIndex = songsData.findIndex(s => s.id === targetSong.id);
+        if (mainIndex !== -1) {
+            loadSong(mainIndex, shouldPlay);
+        }
     }
 
     // Toggle Favorites
