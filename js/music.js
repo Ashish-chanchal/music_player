@@ -190,13 +190,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── AUDIO ENGINE ────────────────────────────────────────────────────────
 
+    function setPlayingState(playing) {
+        isPlaying = playing;
+        if (playPauseBtn && playPauseBtn.querySelector('i')) {
+            playPauseBtn.querySelector('i').className = `fa-solid ${playing ? 'fa-pause' : 'fa-play'}`;
+        }
+        if (vinylRecord) {
+            playing ? vinylRecord.classList.add('spinning') : vinylRecord.classList.remove('spinning');
+        }
+        updateActiveCardPlayIcon(playing);
+    }
+
     function loadSong(index, shouldPlay = true) {
         if (index < 0 || index >= songsData.length) return;
 
         currentIndex = index;
         const song = songsData[currentIndex];
 
-        // Update UI
+        // Update UI Info
         currentTitle.textContent  = song.title;
         currentArtist.textContent = song.artist;
         currentAlbum.textContent  = song.album || 'Single';
@@ -206,44 +217,36 @@ document.addEventListener('DOMContentLoaded', () => {
         heroCover.src             = song.cover;
         updateFavoriteButtonState(song.id);
 
-        // Highlight active card
+        // Highlight Active Card in Grid
         document.querySelectorAll('.song-card').forEach(card => {
             const active = card.dataset.id === song.id;
             card.classList.toggle('playing', active);
             const icon = card.querySelector('.play-overlay-btn i');
-            if (icon) icon.className = `fa-solid ${active && shouldPlay ? 'fa-pause' : 'fa-play'}`;
+            if (icon) {
+                icon.className = `fa-solid ${active && shouldPlay ? 'fa-pause' : 'fa-play'}`;
+            }
         });
 
-        // Load new source
+        // Set Audio Source and Play/Pause
         audio.src = song.url;
-        audio.load();
 
         if (shouldPlay) {
-            // Wait until enough data is ready, then play
-            audio.addEventListener('loadeddata', function onLoaded() {
-                audio.removeEventListener('loadeddata', onLoaded);
-                audio.play().then(() => {
-                    setPlayingState(true);
-                }).catch(err => {
-                    console.warn('Play failed:', err);
-                    setPlayingState(false);
-                });
-            }, { once: true });
+            playAudio();
         } else {
-            setPlayingState(false);
+            pauseAudio();
         }
     }
 
-    function setPlayingState(playing) {
-        isPlaying = playing;
-        playPauseBtn.querySelector('i').className = `fa-solid ${playing ? 'fa-pause' : 'fa-play'}`;
-        playing ? vinylRecord.classList.add('spinning') : vinylRecord.classList.remove('spinning');
-        updateActiveCardPlayIcon(playing);
-    }
-
     function playAudio() {
-        audio.play().then(() => setPlayingState(true))
-                    .catch(err => { console.warn('Play failed:', err); setPlayingState(false); });
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                setPlayingState(true);
+            }).catch(err => {
+                console.warn('Playback standard interaction check:', err);
+                setPlayingState(false);
+            });
+        }
     }
 
     function pauseAudio() {
@@ -252,8 +255,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function togglePlay() {
-        if (isPlaying) pauseAudio();
-        else playAudio();
+        if (isPlaying) {
+            pauseAudio();
+        } else {
+            playAudio();
+        }
     }
 
     function updateActiveCardPlayIcon(playing) {
