@@ -1,363 +1,441 @@
-const music = document.querySelector('audio');
-const img = document.querySelector('img');
-const play = document.getElementById('play');
-const title = document.getElementById('title');
-const artist = document.getElementById('artist');
-const prew = document.getElementById('prew');
-const next = document.getElementById('next');
-const myvideo = document.getElementById('myVideo');
-const progress=document.getElementById('progress');
-let sduration = document.getElementById('duration');
-let current_time= document.getElementById('current_time');
-const progress_div = document.getElementById('progress_div');
-const vertical_nav=document.getElementById('vertical_nav');
-const ourlist=document.getElementById('ourlist');
-
-const song1=document.getElementById('song1');
-const song2=document.getElementById('song2');
-const song3=document.getElementById('song3');
-const song4=document.getElementById('song4');
-const song5=document.getElementById('song5');
-const song6=document.getElementById('song6');
-const song7=document.getElementById('song7');
-const song8=document.getElementById('song8');
-const song9=document.getElementById('song9');
-const song10=document.getElementById('song10');
-
-console.log(song1);
-console.log(ourlist);
-songIndex = 0;
-const songs = [{
-    artist: "Arijit Singh",
-    id: "1",
-    name: "Kesariya",
-    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg",
-    title: "Kesariya",
-},
-{
-    id: "2",
-    name: "Deva Deva",
-    title: "Deva Deva",
-    artist: "Pritam, Arijit Singh",
-    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg"
-},
-{
-    artist: "Arijit Singh",
-    id: "3",
-    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg",
-    name: "Dance Ka Bhoot",
-    title: "Dance Ka Bhoot"
-},
-{
-    id: "4",
-    name: "Rasiya",
-    title: "Rasiya",
-    artist: "Shreya Ghoshal",
-    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg",
-
-},
-{
-    id: "5",
-    name: "Thumkeshwari",
-    title: "Thumkeshwari",
-    artist: "Sachin-Jigar",
-    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
-},
-{
-    id: "6",
-    name: "Teriya Deedan",
-    title: "Teriya Deedan",
-    artist: "Parmesh Verma",
-    image: "https://i.scdn.co/image/ab67616d0000b273fd79a0560e0ab840cce158a4"
-},
-{
-    id: "7",
-    name: "Manike",
-    title: "Manike",
-    artist: "Yohani, Jubin Nautiyal,",
-    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
-},
-{
-    id: "8",
-    name: "Haaniya Ve",
-    title: "Haaniya Ve",
-    artist: "Jubin Nautiyal,",
-    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
-},
-{
-    id: "9",
-    name: "Dil De Diya",
-    title: "Dil De Diya",
-    artist: "Rochak Kohlhi",
-    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
-},
-{
-    id: "10",
-    name: "Raataan Lambiyan",
-    title: "Raataan Lambiyan",
-    artist: "Asees Kaur Jubin Nautiyal",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
-},
-{
-    id: "11",
-    name: "Jai Shree Ram",
-    title: "Jai Shree Ram",
-    artist: "Vikram Montrose",
-    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2021/ram-setu/ram-setu-poster-4.jpg"
-},
-{
-    id: "12",
-    name: "Maarkhayegaa",
-    title: "Maarkhayegaa",
-    artist: "Farhad Bhiwandiwala",
-    image: "https://www.bollywoodhungama.com/wp-content/uploads/2022/01/Akshay-Kumar-starrer-Bachchan-Pandey-to-release-on-March-18-2022-new-posters-unveiled.jpg"
-},
-{
-    id: "13",
-    name: "Meri Jaan Meri Jaan",
-    title: "Meri Jaan",
-    artist: "B Praak",
-    image: "https://www.bollywoodhungama.com/wp-content/uploads/2022/01/Akshay-Kumar-starrer-Bachchan-Pandey-to-release-on-March-18-2022-new-posters-unveiled.jpg"
-},
-{
-    id: "14",
-    name: "Saare Bolo Bewafa",
-    title: "Saare Bolo Bewafa",
-    artist: "B Praak, Jaani",
-    image: "https://www.bollywoodhungama.com/wp-content/uploads/2022/01/Akshay-Kumar-starrer-Bachchan-Pandey-to-release-on-March-18-2022-new-posters-unveiled.jpg"
-},
-{
-    id: "15",
-    name: "Heer Raanjhana",
-    title: "Heer Raanjhana",
-    artist: "Arijit Singh",
-    image: "https://www.bollywoodhungama.com/wp-content/uploads/2022/01/Akshay-Kumar-starrer-Bachchan-Pandey-to-release-on-March-18-2022-new-posters-unveiled.jpg"
-},
-{
-    id: "16",
-    name: "Apna Bana Le",
-    title: "Apna Bana Le",
-    artist: "Arijit Singh",
-    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
-},
-{
-    id: "17",
-    name: "Ranjha",
-    title: "Ranjha",
-    artist: "Jasleen Royal, B Praak",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
-},
-{
-    id: "18",
-    name: "Jaihind Ki Senaa",
-    title: "Jaihind Ki Senaa",
-    artist: "Vikram Montrose",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
-},
-{
-    id: "19",
-    name: "Mann Bharryaa 2.0",
-    title: "Mann Bharryaa 2.0",
-    artist: "B Praak",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
-},
-{
-    id: "20",
-    name: "Kabhii Tumhhe",
-    title: "Kabhii Tumhhe",
-    artist: "Darshan Raval",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
-}
-
-]
-let isPlaying = false;
-const playMusic = () => {
-    music.play();
-    play.classList.replace('fa-play', 'fa-pause');
-    img.classList.add('anime');
-    myvideo.play();
-
-    isPlaying = true;
-}
-const pauseMusic = () => {
-    music.pause();
-    play.classList.replace('fa-pause', 'fa-play');
-    img.classList.remove('anime');
-    myvideo.pause();
-    isPlaying = false;
-}
-play.addEventListener('click', () => {
-    if (!isPlaying) {
-        playMusic();
-    }
-    else {
-        pauseMusic();
-    }
-});
-
-// change in data
-const loadSong = (songs) => {
-    title.textContent = songs.title;
-    artist.textContent = songs.artist;
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
+    const audio = document.getElementById('audioElement');
+    const songGrid = document.getElementById('songGrid');
+    const searchInput = document.getElementById('searchInput');
+    const clearSearch = document.getElementById('clearSearch');
+    const songCountBadge = document.getElementById('songCountBadge');
+    const visibleSongCount = document.getElementById('visibleSongCount');
     
-    music.src = "music/" + songs.name + ".mp3";
-    img.src = songs.image;
-};
+    // Player Elements
+    const vinylRecord = document.getElementById('vinylRecord');
+    const currentCover = document.getElementById('currentCover');
+    const currentTitle = document.getElementById('currentTitle');
+    const currentArtist = document.getElementById('currentArtist');
+    const currentAlbum = document.getElementById('currentAlbum');
+    
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const repeatBtn = document.getElementById('repeatBtn');
+    
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationTimeEl = document.getElementById('durationTime');
+    const progressBarContainer = document.getElementById('progressBarContainer');
+    const progressBarFill = document.getElementById('progressBarFill');
+    
+    const volumeBarContainer = document.getElementById('volumeBarContainer');
+    const volumeBarFill = document.getElementById('volumeBarFill');
+    const volumeIcon = document.getElementById('volumeIcon');
+    
+    // Hero Banner Elements
+    const heroTitle = document.getElementById('heroTitle');
+    const heroArtist = document.getElementById('heroArtist');
+    const heroCover = document.getElementById('heroCover');
+    const heroPlayBtn = document.getElementById('heroPlayBtn');
+    const heroFavBtn = document.getElementById('heroFavBtn');
+    
+    // Nav & Sort Elements
+    const navItems = document.querySelectorAll('.nav-item');
+    const sortBtns = document.querySelectorAll('.sort-btn');
 
-//loadSong(songs[2]);
+    // State Variables
+    let songsData = [];
+    let currentPlaylist = [];
+    let currentIndex = 0;
+    let isPlaying = false;
+    let isShuffle = false;
+    let isRepeat = false;
+    let favorites = JSON.parse(localStorage.getItem('aurasound_favs') || '[]');
 
-const nextSong = () => {
-    songIndex = (songIndex + 1) % songs.length;
-    artist.style.color='grey';
-    loadSong(songs[songIndex]);
-    playMusic();
-}
-const prewSong = () => {
-    songIndex = (songIndex - 1 + songs.length) % songs.length;
-    artist.style.color='grey';
-    loadSong(songs[songIndex]);
-    playMusic();
-}
-// progree js 
-music.addEventListener('timeupdate',(event)=>{
-    //console.log(event);
-    const { currentTime , duration} =event.srcElement;
-    let progress_time= (currentTime/duration)*100;
-    progress.style.width=`${progress_time}%`;
-    // music duration update 
-    let mytime=Math.floor(duration/60);
-    let sec_duration = Math.floor(duration%60);
-    if(sec_duration<10){
-        sec_duration =`0${sec_duration}`
+    // Fetch Songs Data
+    fetch('songsdata.json')
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            initData(data);
+        })
+        .catch(err => {
+            console.warn('Fetching songsdata.json failed (possibly file:// protocol), using embedded fallback database.', err);
+            initData(getFallbackSongs());
+        });
+
+    function normalizeSong(song) {
+        return {
+            id: String(song.id || ''),
+            title: song.title || song.title_song || song.name || 'Unknown Track',
+            artist: song.artist || song.artist_song || 'Unknown Artist',
+            album: song.album || 'Single',
+            url: song.url || song.Song_url || (song.name ? `music/${song.name}.mp3` : ''),
+            cover: song.cover || (song.image && song.image.startsWith('http') ? song.image : 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=80')
+        };
     }
-    if(duration){
-        sduration.textContent=mytime+":"+sec_duration;
+
+    function initData(data) {
+        songsData = (Array.isArray(data) ? data : []).map(normalizeSong);
+        currentPlaylist = [...songsData];
+        songCountBadge.textContent = `${songsData.length} Songs`;
+        renderSongGrid(currentPlaylist);
+        if (songsData.length > 0) {
+            loadSong(0, false);
+        }
     }
-    let ctime=Math.floor(currentTime/60);
-    let sec_time = Math.floor(currentTime%60);
-    if(sec_time<10){
-        sec_time =`0${sec_time}`
+
+    function getFallbackSongs() {
+        return [
+            { "id": "1", "title": "Kesariya", "artist": "Arijit Singh", "album": "Brahmastra", "url": "music/Kesariya.mp3", "cover": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=80" },
+            { "id": "2", "title": "Deva Deva", "artist": "Pritam, Arijit Singh", "album": "Brahmastra", "url": "music/Deva Deva.mp3", "cover": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=80" },
+            { "id": "3", "title": "Dance Ka Bhoot", "artist": "Arijit Singh", "album": "Brahmastra", "url": "music/Dance Ka Bhoot.mp3", "cover": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&auto=format&fit=crop&q=80" },
+            { "id": "4", "title": "Rasiya", "artist": "Shreya Ghoshal, Tushar Joshi", "album": "Brahmastra", "url": "music/Rasiya.mp3", "cover": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=500&auto=format&fit=crop&q=80" },
+            { "id": "5", "title": "Thumkeshwari", "artist": "Sachin-Jigar, Rashmeet Kaur", "album": "Bhediya", "url": "music/Thumkeshwari.mp3", "cover": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=80" },
+            { "id": "6", "title": "Apna Bana Le", "artist": "Arijit Singh, Sachin-Jigar", "album": "Bhediya", "url": "music/Apna Bana Le.mp3", "cover": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=500&auto=format&fit=crop&q=80" },
+            { "id": "7", "title": "Manike", "artist": "Yohani, Jubin Nautiyal", "album": "Thank God", "url": "music/Manike.mp3", "cover": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=500&auto=format&fit=crop&q=80" },
+            { "id": "8", "title": "Haaniya Ve", "artist": "Jubin Nautiyal", "album": "Taaj", "url": "music/Haaniya Ve.mp3", "cover": "https://images.unsplash.com/photo-1445985543470-41fba5c3144a?w=500&auto=format&fit=crop&q=80" },
+            { "id": "9", "title": "Dil De Diya", "artist": "Rochak Kohli", "album": "Single", "url": "music/Dil De Diya.mp3", "cover": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=500&auto=format&fit=crop&q=80" },
+            { "id": "10", "title": "Sound of Jai Shree Ram", "artist": "Vikram Montrose", "album": "Ram Setu", "url": "music/Jai Shree Ram.mp3", "cover": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=500&auto=format&fit=crop&q=80" },
+            { "id": "11", "title": "Jai Shree Ram", "artist": "Vikram Montrose", "album": "Ram Setu", "url": "music/Jai Shree Ram.mp3", "cover": "https://images.unsplash.com/photo-1567942712661-82b9b407abbf?w=500&auto=format&fit=crop&q=80" },
+            { "id": "12", "title": "Maarkhayegaa", "artist": "Farhad Bhiwandiwala", "album": "Bachchhan Paandey", "url": "music/Maarkhayegaa.mp3", "cover": "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=500&auto=format&fit=crop&q=80" },
+            { "id": "13", "title": "Meri Jaan Meri Jaan", "artist": "B Praak", "album": "Bachchhan Paandey", "url": "music/Meri Jaan Meri Jaan.mp3", "cover": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500&auto=format&fit=crop&q=80" },
+            { "id": "14", "title": "Saare Bolo Bewafa", "artist": "B Praak, Jaani", "album": "Bachchhan Paandey", "url": "music/Saare Bolo Bewafa.mp3", "cover": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=500&auto=format&fit=crop&q=80" },
+            { "id": "15", "title": "Heer Raanjhana", "artist": "Arijit Singh, Shreya Ghoshal", "album": "Bachchhan Paandey", "url": "music/Heer Raanjhana.mp3", "cover": "https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=500&auto=format&fit=crop&q=80" },
+            { "id": "16", "title": "Raataan Lambiyan", "artist": "Jubin Nautiyal, Asees Kaur", "album": "Shershaah", "url": "music/Raataan Lambiyan.mp3", "cover": "https://images.unsplash.com/photo-1518972559570-7cc1309f3229?w=500&auto=format&fit=crop&q=80" },
+            { "id": "17", "title": "Ranjha", "artist": "Jasleen Royal, B Praak", "album": "Shershaah", "url": "music/Ranjha.mp3", "cover": "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500&auto=format&fit=crop&q=80" },
+            { "id": "18", "title": "Jaihind Ki Senaa", "artist": "Vikram Montrose", "album": "Shershaah", "url": "music/Jaihind Ki Senaa.mp3", "cover": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&auto=format&fit=crop&q=80" },
+            { "id": "19", "title": "Mann Bharryaa 2.0", "artist": "B Praak", "album": "Shershaah", "url": "music/Mann Bharryaa 2.0.mp3", "cover": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=500&auto=format&fit=crop&q=80" },
+            { "id": "20", "title": "Kabhii Tumhhe", "artist": "Darshan Raval, Javed-Mohsin", "album": "Shershaah", "url": "music/Kabhii Tumhhe.mp3", "cover": "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=500&auto=format&fit=crop&q=80" }
+        ];
     }
-    if(currentTime){
-        current_time.textContent=ctime+":"+sec_time;
-    }  
+
+    // Render Songs in Grid
+    function renderSongGrid(songs) {
+        songGrid.innerHTML = '';
+        visibleSongCount.textContent = songs.length;
+
+        if (songs.length === 0) {
+            songGrid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
+                    <i class="fa-solid fa-compact-disc" style="font-size: 48px; margin-bottom: 16px;"></i>
+                    <p>No songs found matching your search.</p>
+                </div>
+            `;
+            return;
+        }
+
+        songs.forEach((song, index) => {
+            const isFav = favorites.includes(song.id);
+            const isCurrentPlaying = songsData[currentIndex] && songsData[currentIndex].id === song.id;
+
+            const card = document.createElement('div');
+            card.className = `song-card ${isCurrentPlaying ? 'playing' : ''}`;
+            card.dataset.id = song.id;
+
+            card.innerHTML = `
+                <div class="card-img-wrap">
+                    <img src="${song.cover}" alt="${song.title}" loading="lazy">
+                    <div class="play-overlay">
+                        <div class="play-overlay-btn">
+                            <i class="fa-solid ${isCurrentPlaying && isPlaying ? 'fa-pause' : 'fa-play'}"></i>
+                        </div>
+                    </div>
+                    <button class="fav-card-btn ${isFav ? 'active' : ''}" data-id="${song.id}">
+                        <i class="fa-${isFav ? 'solid' : 'regular'} fa-heart"></i>
+                    </button>
+                </div>
+                <div class="card-info">
+                    <span class="card-title">${song.title}</span>
+                    <span class="card-artist">${song.artist}</span>
+                </div>
+            `;
+
+            // Card Click to Play
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.fav-card-btn')) return; // Ignore if clicking favorite button
+                
+                const targetIndex = songsData.findIndex(s => s.id === song.id);
+                if (targetIndex !== -1) {
+                    if (currentIndex === targetIndex) {
+                        togglePlay();
+                    } else {
+                        loadSong(targetIndex, true);
+                    }
+                }
+            });
+
+            // Favorite Toggle inside Card
+            const favBtn = card.querySelector('.fav-card-btn');
+            favBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFavorite(song.id);
+            });
+
+            songGrid.appendChild(card);
+        });
+    }
+
+    // Load Song Details into Player
+    function loadSong(index, shouldPlay = true) {
+        if (index < 0 || index >= songsData.length) return;
+        
+        currentIndex = index;
+        const song = songsData[currentIndex];
+
+        audio.src = song.url;
+        currentTitle.textContent = song.title;
+        currentArtist.textContent = song.artist;
+        currentAlbum.textContent = song.album || 'Single';
+        currentCover.src = song.cover;
+
+        // Update Hero Spotlight Banner
+        heroTitle.textContent = song.title;
+        heroArtist.textContent = `${song.artist} • ${song.album || 'Single'}`;
+        heroCover.src = song.cover;
+        
+        updateFavoriteButtonState(song.id);
+
+        if (shouldPlay) {
+            playAudio();
+        } else {
+            pauseAudio();
+        }
+
+        // Highlight Active Card
+        document.querySelectorAll('.song-card').forEach(card => {
+            const isThis = card.dataset.id === song.id;
+            card.classList.toggle('playing', isThis);
+            const icon = card.querySelector('.play-overlay-btn i');
+            if (icon) {
+                icon.className = `fa-solid ${isThis && isPlaying ? 'fa-pause' : 'fa-play'}`;
+            }
+        });
+    }
+
+    // Play/Pause Controls
+    function playAudio() {
+        audio.play().then(() => {
+            isPlaying = true;
+            playPauseBtn.querySelector('i').className = 'fa-solid fa-pause';
+            vinylRecord.classList.add('spinning');
+            updateActiveCardPlayIcon(true);
+        }).catch(err => {
+            console.log('Playback standard interaction check:', err);
+        });
+    }
+
+    function pauseAudio() {
+        audio.pause();
+        isPlaying = false;
+        playPauseBtn.querySelector('i').className = 'fa-solid fa-play';
+        vinylRecord.classList.remove('spinning');
+        updateActiveCardPlayIcon(false);
+    }
+
+    function togglePlay() {
+        if (isPlaying) {
+            pauseAudio();
+        } else {
+            playAudio();
+        }
+    }
+
+    function updateActiveCardPlayIcon(playing) {
+        const activeCard = document.querySelector('.song-card.playing');
+        if (activeCard) {
+            const icon = activeCard.querySelector('.play-overlay-btn i');
+            if (icon) {
+                icon.className = `fa-solid ${playing ? 'fa-pause' : 'fa-play'}`;
+            }
+        }
+    }
+
+    // Previous / Next Logic
+    function playNextSong() {
+        if (isShuffle) {
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * songsData.length);
+            } while (randomIndex === currentIndex && songsData.length > 1);
+            loadSong(randomIndex, true);
+        } else {
+            const nextIdx = (currentIndex + 1) % songsData.length;
+            loadSong(nextIdx, true);
+        }
+    }
+
+    function playPrevSong() {
+        const prevIdx = (currentIndex - 1 + songsData.length) % songsData.length;
+        loadSong(prevIdx, true);
+    }
+
+    // Toggle Favorites
+    function toggleFavorite(songId) {
+        if (favorites.includes(songId)) {
+            favorites = favorites.filter(id => id !== songId);
+        } else {
+            favorites.push(songId);
+        }
+        localStorage.setItem('aurasound_favs', JSON.stringify(favorites));
+
+        // Re-render current filter if favorites view is active
+        const activeFilter = document.querySelector('.nav-item.active').dataset.filter;
+        if (activeFilter === 'fav') {
+            filterSongs('fav');
+        } else {
+            renderSongGrid(currentPlaylist);
+        }
+        
+        if (songsData[currentIndex]) {
+            updateFavoriteButtonState(songsData[currentIndex].id);
+        }
+    }
+
+    function updateFavoriteButtonState(songId) {
+        const isFav = favorites.includes(songId);
+        heroFavBtn.querySelector('i').className = `fa-${isFav ? 'solid' : 'regular'} fa-heart`;
+        if (isFav) {
+            heroFavBtn.style.color = '#ec4899';
+        } else {
+            heroFavBtn.style.color = 'var(--text-primary)';
+        }
+    }
+
+    // Audio Event Listeners (Time & Progress)
+    audio.addEventListener('timeupdate', () => {
+        if (!isNaN(audio.duration)) {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progressBarFill.style.width = `${progressPercent}%`;
+
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+            durationTimeEl.textContent = formatTime(audio.duration);
+        }
+    });
+
+    audio.addEventListener('ended', () => {
+        if (isRepeat) {
+            audio.currentTime = 0;
+            playAudio();
+        } else {
+            playNextSong();
+        }
+    });
+
+    // Progress Bar Seek
+    progressBarContainer.addEventListener('click', (e) => {
+        const width = progressBarContainer.clientWidth;
+        const clickX = e.offsetX;
+        const duration = audio.duration;
+        if (duration) {
+            audio.currentTime = (clickX / width) * duration;
+        }
+    });
+
+    // Volume Bar
+    volumeBarContainer.addEventListener('click', (e) => {
+        const width = volumeBarContainer.clientWidth;
+        const clickX = e.offsetX;
+        const newVolume = Math.max(0, Math.min(1, clickX / width));
+        audio.volume = newVolume;
+        volumeBarFill.style.width = `${newVolume * 100}%`;
+        
+        if (newVolume === 0) {
+            volumeIcon.className = 'fa-solid fa-volume-xmark';
+        } else if (newVolume < 0.5) {
+            volumeIcon.className = 'fa-solid fa-volume-low';
+        } else {
+            volumeIcon.className = 'fa-solid fa-volume-high';
+        }
+    });
+
+    // Event Listeners for Player Buttons
+    playPauseBtn.addEventListener('click', togglePlay);
+    nextBtn.addEventListener('click', playNextSong);
+    prevBtn.addEventListener('click', playPrevSong);
+    heroPlayBtn.addEventListener('click', () => {
+        if (songsData.length > 0) togglePlay();
+    });
+    heroFavBtn.addEventListener('click', () => {
+        if (songsData[currentIndex]) toggleFavorite(songsData[currentIndex].id);
+    });
+
+    shuffleBtn.addEventListener('click', () => {
+        isShuffle = !isShuffle;
+        shuffleBtn.classList.toggle('active', isShuffle);
+    });
+
+    repeatBtn.addEventListener('click', () => {
+        isRepeat = !isRepeat;
+        repeatBtn.classList.toggle('active', isRepeat);
+    });
+
+    // Search Input Filtering
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        clearSearch.style.display = query ? 'block' : 'none';
+
+        currentPlaylist = songsData.filter(song => 
+            song.title.toLowerCase().includes(query) ||
+            song.artist.toLowerCase().includes(query) ||
+            (song.album && song.album.toLowerCase().includes(query))
+        );
+        renderSongGrid(currentPlaylist);
+    });
+
+    clearSearch.addEventListener('click', () => {
+        searchInput.value = '';
+        clearSearch.style.display = 'none';
+        currentPlaylist = [...songsData];
+        renderSongGrid(currentPlaylist);
+    });
+
+    // Navigation Category Filtering
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            navItems.forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+
+            const filter = item.dataset.filter;
+            filterSongs(filter);
+        });
+    });
+
+    function filterSongs(filter) {
+        if (filter === 'fav') {
+            currentPlaylist = songsData.filter(s => favorites.includes(s.id));
+        } else if (filter === 'bollywood') {
+            currentPlaylist = songsData.filter(s => Number(s.id) <= 21);
+        } else if (filter === 'global') {
+            currentPlaylist = songsData.filter(s => Number(s.id) > 21);
+        } else {
+            currentPlaylist = [...songsData];
+        }
+        renderSongGrid(currentPlaylist);
+    }
+
+    // Sorting
+    sortBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            sortBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const sortType = btn.dataset.sort;
+            if (sortType === 'title') {
+                currentPlaylist.sort((a, b) => a.title.localeCompare(b.title));
+            } else if (sortType === 'artist') {
+                currentPlaylist.sort((a, b) => a.artist.localeCompare(b.artist));
+            } else {
+                currentPlaylist = [...songsData];
+            }
+            renderSongGrid(currentPlaylist);
+        });
+    });
+
+    // Helper Utility Function
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
 });
-
-// progress on click 
-progress_div.addEventListener('click',(event)=>{
-    const {duration} =music;
-    let move_progress =(event.offsetX / event.srcElement.clientWidth)*duration;
-
-    music.currentTime= move_progress;
-})
-const showList=()=>{
-    if(vertical_nav.style.display=='none'){
-        vertical_nav.style.display="block";
-    }
-    else{
-        vertical_nav.style.display="none";
-    }
-}
-const plays1=()=>{
-   title.textContent=song1.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song1.textContent}` + ".mp3";
-    img.src ="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-const plays2=()=>{
-   title.textContent=song2.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song2.textContent}` + ".mp3";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-const plays3=()=>{
-   title.textContent=song3.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song3.textContent}` + ".mp3";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-const plays4=()=>{
-   title.textContent=song4.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song4.textContent}` + ".mp3";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-const plays5=()=>{
-   title.textContent=song5.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song5.textContent}` + ".mp3";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-const plays6=()=>{
-   title.textContent=song6.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song6.textContent}` + ".mp3";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-const plays7=()=>{
-   title.textContent=song7.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song7.textContent}` + ".mp3";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-const plays8=()=>{
-   title.textContent=song8.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song8.textContent}` + ".mp3";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-const plays9=()=>{
-   title.textContent=song9.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song9.textContent}` + ".mp3";
-    img.src ="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-const plays10=()=>{
-   title.textContent=song10.textContent;
-   artist.style.color='white';
-    music.src = "music/" + `${song10.textContent}` + ".mp3";
-    img.src ="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*";
-    songIndex = 0;
-    showList();
-    playMusic();
-}
-
-song1.addEventListener('click',plays1);
-song2.addEventListener('click',plays2);
-song3.addEventListener('click',plays3);
-song4.addEventListener('click',plays4);
-song5.addEventListener('click',plays5);
-song6.addEventListener('click',plays6);
-song7.addEventListener('click',plays7);
-song8.addEventListener('click',plays8);
-song9.addEventListener('click',plays9);
-song10.addEventListener('click',plays10);
-
-
-ourlist.addEventListener('click', showList);
-
-music.addEventListener('ended',nextSong);
-
-next.addEventListener('click', nextSong);
-
-prew.addEventListener('click', prewSong);
