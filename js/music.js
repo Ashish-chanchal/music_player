@@ -207,14 +207,15 @@ document.addEventListener('DOMContentLoaded', () => {
         currentIndex = index;
         const song = songsData[currentIndex];
 
-        // Update UI Info
-        currentTitle.textContent  = song.title;
-        currentArtist.textContent = song.artist;
-        currentAlbum.textContent  = song.album || 'Single';
-        currentCover.src          = song.cover;
-        heroTitle.textContent     = song.title;
-        heroArtist.textContent    = `${song.artist} • ${song.album || 'Single'}`;
-        heroCover.src             = song.cover;
+        // Update UI Info safely
+        if (currentTitle)  currentTitle.textContent  = song.title;
+        if (currentArtist) currentArtist.textContent = song.artist;
+        if (currentAlbum)  currentAlbum.textContent  = song.album || 'Single';
+        if (currentCover)  currentCover.src          = song.cover;
+        if (heroTitle)     heroTitle.textContent     = song.title;
+        if (heroArtist)    heroArtist.textContent    = `${song.artist} • ${song.album || 'Single'}`;
+        if (heroCover)     heroCover.src             = song.cover;
+        
         updateFavoriteButtonState(song.id);
 
         // Highlight Active Card in Grid
@@ -228,12 +229,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Set Audio Source and Play/Pause
-        audio.src = song.url;
-
-        if (shouldPlay) {
-            playAudio();
-        } else {
-            pauseAudio();
+        if (audio) {
+            audio.src = song.url;
+            if (shouldPlay) {
+                playAudio();
+            } else {
+                pauseAudio();
+            }
         }
     }
 
@@ -338,11 +340,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateFavoriteButtonState(songId) {
         const isFav = favorites.includes(songId);
-        heroFavBtn.querySelector('i').className = `fa-${isFav ? 'solid' : 'regular'} fa-heart`;
-        if (isFav) {
-            heroFavBtn.style.color = '#ec4899';
-        } else {
-            heroFavBtn.style.color = 'var(--text-primary)';
+        if (heroFavBtn) {
+            const icon = heroFavBtn.querySelector('i');
+            if (icon) icon.className = `fa-${isFav ? 'solid' : 'regular'} fa-heart`;
+            heroFavBtn.style.color = isFav ? '#ec4899' : 'var(--text-primary)';
         }
     }
 
