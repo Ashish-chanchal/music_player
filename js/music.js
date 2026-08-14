@@ -63,7 +63,31 @@ document.addEventListener('DOMContentLoaded', () => {
             initData(getFallbackSongs());
         });
 
+    const DEFAULT_COVERS = {
+        '1': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=80',
+        '2': 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=80',
+        '3': 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&auto=format&fit=crop&q=80',
+        '4': 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=500&auto=format&fit=crop&q=80',
+        '5': 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=80',
+        '6': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=500&auto=format&fit=crop&q=80',
+        '7': 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=500&auto=format&fit=crop&q=80',
+        '8': 'https://images.unsplash.com/photo-1445985543470-41fba5c3144a?w=500&auto=format&fit=crop&q=80',
+        '9': 'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=500&auto=format&fit=crop&q=80',
+        '10': 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=500&auto=format&fit=crop&q=80',
+        '11': 'https://images.unsplash.com/photo-1567942712661-82b9b407abbf?w=500&auto=format&fit=crop&q=80',
+        '12': 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=500&auto=format&fit=crop&q=80',
+        '13': 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500&auto=format&fit=crop&q=80',
+        '14': 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=500&auto=format&fit=crop&q=80',
+        '15': 'https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=500&auto=format&fit=crop&q=80',
+        '16': 'https://images.unsplash.com/photo-1518972559570-7cc1309f3229?w=500&auto=format&fit=crop&q=80',
+        '17': 'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500&auto=format&fit=crop&q=80',
+        '18': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&auto=format&fit=crop&q=80',
+        '19': 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=500&auto=format&fit=crop&q=80',
+        '20': 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=500&auto=format&fit=crop&q=80'
+    };
+
     function normalizeSong(song) {
+        const id = String(song.id || '');
         const rawName = song.name || song.title_song || song.title || '';
         let audioUrl = song.url || song.Song_url || '';
         
@@ -73,12 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let coverUrl = song.cover || song.image || '';
-        if (!coverUrl || coverUrl.includes('drive.google.com') || !coverUrl.startsWith('http')) {
-            coverUrl = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=80';
+        if (!coverUrl || coverUrl.includes('drive.google.com') || coverUrl.endsWith('.mp3') || !coverUrl.startsWith('http') || coverUrl.includes('bollywoodmdb.com')) {
+            coverUrl = DEFAULT_COVERS[id] || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=80';
         }
 
         return {
-            id: String(song.id || ''),
+            id: id,
             title: song.title_song || song.title || song.name || 'Unknown Track',
             artist: song.artist_song || song.artist || 'Unknown Artist',
             album: song.album || 'Single',
