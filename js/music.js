@@ -195,8 +195,12 @@ document.addEventListener('DOMContentLoaded', () => {
         currentIndex = index;
         const song = songsData[currentIndex];
 
+        // Pause existing playback and reset currentTime
+        audio.pause();
+        audio.currentTime = 0;
         audio.src = song.url;
         audio.load();
+
         currentTitle.textContent = song.title;
         currentArtist.textContent = song.artist;
         currentAlbum.textContent = song.album || 'Single';
@@ -236,7 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 vinylRecord.classList.add('spinning');
                 updateActiveCardPlayIcon(true);
             }).catch(err => {
-                console.warn('Autoplay prevented or network loading:', err);
+                console.warn('Playback failed or blocked by browser policy:', err);
+                pauseAudio();
             });
         }
     }
