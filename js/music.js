@@ -209,35 +209,35 @@ document.addEventListener('DOMContentLoaded', () => {
         
         updateFavoriteButtonState(song.id);
 
-        if (shouldPlay) {
-            playAudio();
-        } else {
-            pauseAudio();
-        }
-
         // Highlight Active Card
         document.querySelectorAll('.song-card').forEach(card => {
             const isThis = card.dataset.id === song.id;
             card.classList.toggle('playing', isThis);
             const icon = card.querySelector('.play-overlay-btn i');
             if (icon) {
-                icon.className = `fa-solid ${isThis && isPlaying ? 'fa-pause' : 'fa-play'}`;
+                icon.className = `fa-solid ${isThis && shouldPlay ? 'fa-pause' : 'fa-play'}`;
             }
         });
+
+        if (shouldPlay) {
+            playAudio();
+        } else {
+            pauseAudio();
+        }
     }
 
     // Play/Pause Controls
     function playAudio() {
-        audio.currentTime = 0;
+        isPlaying = true;
+        playPauseBtn.querySelector('i').className = 'fa-solid fa-pause';
+        vinylRecord.classList.add('spinning');
+        updateActiveCardPlayIcon(true);
+
         const playPromise = audio.play();
         if (playPromise !== undefined) {
-            playPromise.then(() => {
-                isPlaying = true;
-                playPauseBtn.querySelector('i').className = 'fa-solid fa-pause';
-                vinylRecord.classList.add('spinning');
-                updateActiveCardPlayIcon(true);
-            }).catch(err => {
-                console.warn('Browser interaction required or media error:', err);
+            playPromise.catch(err => {
+                console.warn('Browser autoplay or media error:', err);
+                pauseAudio();
             });
         }
     }
