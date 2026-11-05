@@ -306,3 +306,7 @@ img { display: block; }
 
 /* Never show the browser's broken-image outline for an image that has no source yet */
 img:not([src]) { visibility: hidden; }
+
+/* Mobile search lives in the page because the sidebar is hidden on small screens */
+.mobile-search { display: none; }
+@media (max-width: 860px) { .mobile-search { display: block; margin: 14px 0 0; } }

@@ -10,118 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23fa2d48'/%3E%3Cpath d='M12 9v11.2a3.2 3.2 0 1 0 2 2.9V13h6V9z' fill='%23fff'/%3E%3C/svg%3E">
     <script>
-        // Apply saved theme before first paint to avoid a flash.
+        // Apply the saved theme before first paint to avoid a flash.
         try { var t = localStorage.getItem('vibepulse_theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
     </script>
 </head>
 <body>
-    <div class="app">
-        <!-- Sidebar -->
-        <aside class="sidebar" aria-label="Primary">
-            <div class="brand">
-                <span class="brand-mark"><i class="fa-solid fa-music"></i></span>
-                <span class="brand-name">VibePulse</span>
-            </div>
-            <div class="search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="search" id="searchInput" placeholder="Search" autocomplete="off" aria-label="Search songs and artists">
-            </div>
-            <nav class="nav" aria-label="Main">
-                <button class="nav-item active" data-view="home"><i class="fa-solid fa-circle-play"></i><span>Listen Now</span></button>
-                <button class="nav-item" data-view="browse"><i class="fa-solid fa-table-cells-large"></i><span>Browse</span></button>
-                <p class="nav-label">Library</p>
-                <button class="nav-item" data-view="library"><i class="fa-solid fa-compact-disc"></i><span>Songs</span></button>
-                <button class="nav-item" data-view="favorites"><i class="fa-solid fa-heart"></i><span>Liked Songs</span><em class="nav-count" id="favCount">0</em></button>
-            </nav>
-            <div class="sidebar-foot">
-                <button class="theme-btn" id="themeBtn" aria-label="Toggle light and dark theme"><i class="fa-solid fa-circle-half-stroke"></i><span>Appearance</span></button>
-                <p class="sidebar-credit">Open catalogue by <strong>Audius</strong></p>
-            </div>
-        </aside>
-
-        <!-- Toolbar player (Apple Music style) -->
-        <header class="player" id="player" aria-label="Player">
-            <div class="transport">
-                <button class="icon-btn hide-sm" id="shuffleBtn" aria-label="Shuffle" title="Shuffle"><i class="fa-solid fa-shuffle"></i></button>
-                <button class="icon-btn" id="prevBtn" aria-label="Previous" title="Previous"><i class="fa-solid fa-backward"></i></button>
-                <button class="play-btn" id="playBtn" aria-label="Play" title="Play / Pause (Space)"><i class="fa-solid fa-play"></i></button>
-                <button class="icon-btn" id="nextBtn" aria-label="Next" title="Next"><i class="fa-solid fa-forward"></i></button>
-                <button class="icon-btn hide-sm" id="repeatBtn" aria-label="Repeat" title="Repeat"><i class="fa-solid fa-repeat"></i></button>
-            </div>
-
-            <div class="capsule">
-                <div class="np" id="npOpen" role="button" tabindex="0" aria-label="Open now playing">
-                    <img class="np-cover" id="npCover" alt="">
-                    <div class="np-meta">
-                        <span class="np-title" id="npTitle">Not playing</span>
-                        <span class="np-artist" id="npArtist">Choose a song to start</span>
-                    </div>
-                </div>
-                <span class="time hide-sm"><span id="curTime">0:00</span> / <span id="durTime">0:00</span></span>
-                <button class="icon-btn like-btn hide-sm" id="npLike" aria-label="Like"><i class="fa-regular fa-heart"></i></button>
-                <input type="range" class="slider thin" id="seek" min="0" max="1000" value="0" step="1" aria-label="Seek">
-            </div>
-
-            <div class="right">
-                <div class="volume hide-sm">
-                    <button class="icon-btn" id="muteBtn" aria-label="Mute"><i class="fa-solid fa-volume-high" id="volIcon"></i></button>
-                    <input type="range" class="slider" id="volume" min="0" max="100" value="80" aria-label="Volume">
-                </div>
-                <button class="icon-btn" id="expandBtn" aria-label="Open now playing"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
-            </div>
-        </header>
-
-        <!-- Main -->
-        <main class="main" id="main">
-            <h1 class="page-title" id="pageTitle">Listen Now</h1>
-            <div class="content" id="content"></div>
-        </main>
-
-        <!-- Mobile tab bar -->
-        <nav class="tabbar" aria-label="Mobile">
-            <button class="tab active" data-view="home"><i class="fa-solid fa-circle-play"></i><span>Listen Now</span></button>
-            <button class="tab" data-view="browse"><i class="fa-solid fa-table-cells-large"></i><span>Browse</span></button>
-            <button class="tab" data-view="library"><i class="fa-solid fa-compact-disc"></i><span>Songs</span></button>
-            <button class="tab" data-view="favorites"><i class="fa-solid fa-heart"></i><span>Liked</span></button>
-        </nav>
-    </div>
-
-    <!-- Full-screen Now Playing -->
-    <section class="fp" id="fp" aria-label="Now playing" aria-hidden="true">
-        <div class="fp-bg" id="fpBg"></div>
-        <button class="icon-btn fp-close" id="fpClose" aria-label="Close now playing"><i class="fa-solid fa-chevron-down"></i></button>
-        <div class="fp-inner">
-            <img class="fp-cover" id="fpCover" alt="">
-            <div class="fp-panel">
-                <div class="fp-titles">
-                    <div class="fp-text">
-                        <h2 id="fpTitle">Not playing</h2>
-                        <p id="fpArtist"></p>
-                    </div>
-                    <button class="icon-btn like-btn" id="fpLike" aria-label="Like"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="fp-seek">
-                    <input type="range" class="slider" id="fpSeek" min="0" max="1000" value="0" step="1" aria-label="Seek">
-                    <div class="fp-times"><span id="fpCur">0:00</span><span id="fpDur">0:00</span></div>
-                </div>
-                <div class="fp-buttons buttons">
-                    <button class="icon-btn" id="fpShuffle" aria-label="Shuffle"><i class="fa-solid fa-shuffle"></i></button>
-                    <button class="icon-btn lg" id="fpPrev" aria-label="Previous"><i class="fa-solid fa-backward"></i></button>
-                    <button class="play-btn lg" id="fpPlay" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-                    <button class="icon-btn lg" id="fpNext" aria-label="Next"><i class="fa-solid fa-forward"></i></button>
-                    <button class="icon-btn" id="fpRepeat" aria-label="Repeat"><i class="fa-solid fa-repeat"></i></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <audio id="audio" preload="metadata"></audio>
-
-    <script src="js/config.js"></script>
-    <script src="js/music.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
