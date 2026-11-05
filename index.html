@@ -3,163 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibePulse - Feel the Beat</title>
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="VibePulse – your local library and an open music catalogue in one clean player.">
+    <title>VibePulse – Music Player</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/3844/3844724.png" type="image/x-icon">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23fa2d48'/%3E%3Cpath d='M12 9v11.2a3.2 3.2 0 1 0 2 2.9V13h6V9z' fill='%23fff'/%3E%3C/svg%3E">
+    <script>
+        // Apply the saved theme before first paint to avoid a flash.
+        try { var t = localStorage.getItem('vibepulse_theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    </script>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="brand-logo">
-                    <i class="fa-solid fa-record-vinyl"></i>
-                </div>
-                <h2>VibePulse</h2>
-            </div>
-
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active" data-filter="all">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Home</span>
-                </a>
-                <a href="#" class="nav-item" data-filter="fav">
-                    <i class="fa-solid fa-heart"></i>
-                    <span>My Pulse</span>
-                </a>
-                <a href="#" class="nav-item" data-filter="bollywood">
-                    <i class="fa-solid fa-fire"></i>
-                    <span>Bollywood Hits</span>
-                </a>
-                <a href="#" class="nav-item" data-filter="global">
-                    <i class="fa-solid fa-compact-disc"></i>
-                    <span>Top Tracks</span>
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <div class="now-playing-badge" id="sidebarBadge">
-                    <div class="audio-waves">
-                        <span></span><span></span><span></span><span></span>
-                    </div>
-                    <div class="badge-text">
-                        <span class="badge-title">VibePulse Live</span>
-                        <span class="badge-subtitle">20 Songs</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Header Search & Stats -->
-            <header class="top-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="searchInput" placeholder="Search songs, artists, or lyrics...">
-                    <button class="clear-search" id="clearSearch"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div class="user-profile">
-                    <span class="badge-counter" id="songCountBadge">20 Tracks</span>
-                </div>
-            </header>
-
-            <!-- Hero Feature Banner -->
-            <section class="hero-banner">
-                <div class="hero-cover-wrap">
-                    <img id="heroCover" src="https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg" alt="Hero Album">
-                </div>
-                <div class="hero-info">
-                    <span class="hero-tag"><i class="fa-solid fa-sparkles"></i> Daily Spotlight</span>
-                    <h1 id="heroTitle">Kesariya</h1>
-                    <p id="heroArtist">Arijit Singh</p>
-                    <div class="hero-actions">
-                        <button class="btn-primary" id="heroPlayBtn">
-                            <i class="fa-solid fa-play"></i>
-                        </button>
-                        <button class="btn-glass" id="heroFavBtn">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Song List / Playlist Table -->
-            <section class="playlist-section">
-                <div class="section-header">
-                    <h3>Trending Vibes (<span id="visibleSongCount">20</span>)</h3>
-                    <div class="sort-options">
-                        <button class="sort-btn active" data-sort="default">All</button>
-                        <button class="sort-btn" data-sort="title">Title</button>
-                        <button class="sort-btn" data-sort="artist">Artist</button>
-                    </div>
-                </div>
-
-                <div class="song-grid" id="songGrid">
-                    <!-- Dynamic Song Cards Injected via JS -->
-                </div>
-            </section>
-        </main>
-
-        <!-- Resso Bottom Audio Dock -->
-        <footer class="player-panel" id="playerPanel">
-            <div class="current-track-info">
-                <div class="player-disk-wrap">
-                    <div class="vinyl-record" id="vinylRecord">
-                        <img id="currentCover" src="https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg" alt="Current Cover">
-                    </div>
-                </div>
-                <div class="current-meta">
-                    <h3 id="currentTitle">Kesariya</h3>
-                    <p id="currentArtist">Arijit Singh</p>
-                    <span id="currentAlbum" class="current-album" style="display:none;">Single</span>
-                </div>
-            </div>
-
-            <div class="player-center">
-                <div class="player-controls">
-                    <button class="control-btn" id="shuffleBtn" title="Shuffle">
-                        <i class="fa-solid fa-shuffle"></i>
-                    </button>
-                    <button class="control-btn" id="prevBtn" title="Previous">
-                        <i class="fa-solid fa-backward-step"></i>
-                    </button>
-                    <button class="control-btn primary" id="playPauseBtn" title="Play">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <button class="control-btn" id="nextBtn" title="Next">
-                        <i class="fa-solid fa-forward-step"></i>
-                    </button>
-                    <button class="control-btn" id="repeatBtn" title="Repeat">
-                        <i class="fa-solid fa-repeat"></i>
-                    </button>
-                </div>
-
-                <div class="progress-block">
-                    <span class="time-stamps" id="currentTime">0:00</span>
-                    <div class="progress-bar-container" id="progressBarContainer">
-                        <div class="progress-bar-fill" id="progressBarFill"></div>
-                    </div>
-                    <span class="time-stamps" id="durationTime">0:00</span>
-                </div>
-            </div>
-
-            <div class="volume-block">
-                <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
-                <div class="volume-bar-container" id="volumeBarContainer">
-                    <div class="volume-bar-fill" id="volumeBarFill"></div>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Hidden Audio Tag -->
-    <audio id="audioElement" preload="auto"></audio>
-
-    <script src="js/music.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
